@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Cropper.js</title>
+  <link rel="stylesheet" href="../css/cropper.css">
+  <style>
+    .container {
+      margin: 20px auto;
+      max-width: 640px;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Cropper with fixed crop box</h1>
+    <div>
+      <img style="position: absolute; left: 50%; transform: translateX(-50%); width: 364px; height: 364px; z-index: 2" id="image-twb" src="http://localhost/pspl/twb/assets/img/twb/IK.svg" alt="Picture">
+      <img style="max-width: 360px; height: 360px;" id="image" src="http://localhost/pspl/twb/assets/img/team/team-2.jpg" alt="Picture">
+    </div>
+    <h3>Result</h3>
+    <p>
+      <button type="button" id="button">Crop</button>
+    </p>
+    <div id="result"></div>
+    <img src="" id="preview" style="width: 400px; height: 400px;">
+
+
+    <canvas id="canvas" style="width: 400px; height: 400px;"></canvas>
+  </div>
+  <script src="../js/cropper.js"></script>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var image = document.querySelector('#image');
+      var twb = document.querySelector('#image-twb');
+      var data = document.querySelector('#data');
+      var button = document.getElementById('button');
+      var result = document.getElementById('result');
+      var preview = document.getElementById('preview');
+      var cropper = new Cropper(image, {
+        dragMode: 'move',
+        aspectRatio: 16 / 16,
+        autoCropArea: 1,
+        restore: false,
+        guides: false,
+        center: false,
+        highlight: false,
+        cropBoxMovable: false,
+        cropBoxResizable: false,
+        toggleDragModeOnDblclick: false,
+      });
+
+      button.onclick = function () {
+        // console.log(cropper.getCroppedCanvas().toDataURL());
+        preview.src = cropper.getCroppedCanvas().toDataURL();
+
+        // result.innerHTML = '';
+        // result.appendChild(cropper.getCroppedCanvas());
+
+        var img1 = document.getElementById('preview');
+        var img2 = document.getElementById('image-twb');
+        var canvas = document.getElementById("canvas");
+        var context = canvas.getContext("2d");
+        var width = img2.width;
+        var height = img2.height;
+        canvas.width = width;
+        canvas.height = height;
+
+        context.drawImage(preview, 0, 1, width, height);
+        var image1 = context.getImageData(0, 0, width, height);
+        var imageData1 = image1.data;
+        context.drawImage(img2, 0, 0, width, height);
+        var image2 = context.getImageData(0, 0, width, height);
+        var imageData2 = image2.data;
+
+      };
+    });
+  </script>
+</body>
+</html>

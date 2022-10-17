@@ -1,0 +1,24 @@
+Options -indexes
+Options -Multiviews
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ index.php?url=$1 [L]
+
+##REDIRECT ERROR
+ErrorDocument 404 https://w3llsquad.or.id/404.php
+ErrorDocument 403 https://w3llsquad.or.id/403.php
+ErrorDocument 500 https://w3llsquad.or.id/500.php
+ErrorDocument 503 https://w3llsquad.or.id/503.php
+ErrorDocument 504 https://w3llsquad.or.id/504.php
+
+##Allowed memory size
+php_value memory_limit 600M
+
+##Clickjacking
+Header always set X-Frame-Options "DENY"
+Header always set X-Content-Type "nosniff"
+Header always set Strict-Transport-Security "max-age=31536000; includeSubdomains"
+#Header always set Content-Security-Policy "default-src https: data: 'unsafe-inline' 'unsafe-eval'"
+Header always set X-Xss-Protection "1; mode=block"
